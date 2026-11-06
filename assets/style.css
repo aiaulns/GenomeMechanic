@@ -38,3 +38,24 @@ h1,h2,h3{color:var(--fg)}p{color:var(--muted)}strong{color:var(--fg)}
 @media(prefers-color-scheme:dark){:root:not([data-theme]) .viewer-frame{background:radial-gradient(circle at 50% 50%,#263747,#17212c 70%)}:root:not([data-theme]) #berSVG{background:radial-gradient(circle at 50% 40%,#293d4b,transparent 70%)}}
 @media(max-width:860px){.disease-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:540px){.disease-grid{grid-template-columns:1fr}.theme-toggle{padding:7px 9px}.topbar{gap:8px}}
+
+/* Mechanism micro-animations: schematic educational sequences */
+.mini-animation-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px;margin:20px 0 28px}
+.mini-animation{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:15px;min-width:0}
+.mini-animation h3{font-size:15px;margin:0 0 5px}.mini-animation p{font-size:12px;line-height:1.55;min-height:56px;margin:0 0 12px}
+.anim-scene{height:92px;position:relative;overflow:hidden;border-radius:9px;background:var(--panel2);border:1px solid var(--line);display:flex;align-items:center;justify-content:center}
+.anim-scene .strand{width:78%;height:4px;border-radius:5px;background:var(--accent);position:relative;box-shadow:0 13px 0 color-mix(in srgb,var(--accent) 55%,white);}
+.anim-scene .strand:before,.anim-scene .strand:after{content:"";position:absolute;left:0;right:0;height:2px;top:6px;background:repeating-linear-gradient(90deg,var(--muted) 0 2px,transparent 2px 13px)}
+.anim-scene .lesion{position:absolute;width:14px;height:14px;border-radius:3px;background:#d77c68;left:49%;top:34px;transform:rotate(45deg);animation:lesionPulse 1.8s ease-in-out infinite}
+.anim-scene .repair-dot{position:absolute;width:22px;height:22px;border:2px solid #4a9a78;border-radius:50%;left:calc(49% - 4px);top:30px;opacity:0;animation:repairMove 3s ease-in-out infinite}
+.anim-scene small{position:absolute;bottom:6px;font-size:8px;letter-spacing:.8px;color:var(--muted);font-weight:700}
+.anim-scene.photo:after{content:"☼";position:absolute;left:12%;top:10px;color:#c28a36;font-size:20px;animation:lightFlash 2.5s infinite}
+.anim-scene.alkyl .lesion{animation:alkylMove 2.8s infinite}.anim-scene.ber .lesion,.anim-scene.ner .lesion,.anim-scene.mmr .lesion{animation:lesionFade 3s infinite}
+.anim-scene.hr:after{content:"";position:absolute;width:70%;height:3px;top:27px;background:#6b9e83;transform:rotate(-8deg);opacity:.75}
+.anim-scene.nhej .strand{animation:joinEnds 2.4s infinite}.anim-scene.sos .repair-dot{animation:signal 1.7s infinite}
+@keyframes lesionPulse{50%{box-shadow:0 0 0 7px #d77c6822;transform:rotate(135deg) scale(.8)}}
+@keyframes repairMove{0%,25%{opacity:0;transform:translateX(-24px) scale(.5)}55%,85%{opacity:1;transform:translateX(20px) scale(1)}100%{opacity:0}}
+@keyframes lightFlash{50%{opacity:.25;transform:scale(1.25)}}@keyframes alkylMove{0%,35%{transform:translate(0,0) rotate(45deg)}75%,100%{transform:translate(35px,-18px) rotate(110deg);opacity:.2}}
+@keyframes lesionFade{0%,35%{opacity:1}65%,100%{opacity:.12;transform:scale(.4)}}@keyframes joinEnds{0%,100%{transform:scaleX(1)}50%{transform:scaleX(.87)}}@keyframes signal{0%,100%{opacity:.1;transform:scale(.6)}50%{opacity:1;transform:scale(1.3)}}
+@media(max-width:1000px){.mini-animation-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:540px){.mini-animation-grid{grid-template-columns:1fr}.mini-animation p{min-height:0}}
