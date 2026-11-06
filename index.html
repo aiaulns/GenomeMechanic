@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f7fa">
+  <meta name="description" content="Genome Mechanic — виртуальная лаборатория молекулярной биологии: механизмы репарации ДНК, экспериментальные 3D-структуры и интерактивные задания.">
+  <title>Genome Mechanic — виртуальная лаборатория репарации ДНК</title>
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <div class="ambient ambient-a"></div><div class="ambient ambient-b"></div>
+  <header class="topbar">
+    <div class="brand"><span class="mark">⟡</span><span>HELIX<span class="brand-accent">/LAB</span></span><small>MOLECULAR BIOLOGY</small></div>
+    <nav class="nav" aria-label="Разделы">
+      <button data-page="overview" class="active">Обзор</button>
+      <button data-page="molecules">3D-молекулы</button>
+      <button data-page="simulation">Анимация BER</button>
+      <button data-page="practice">Практикум</button>
+      <button data-page="theory">Теория</button>
+      <button data-page="diseases">Заболевания</button>
+      <button data-page="test">Тест</button>
+    </nav>
+    <button class="theme-toggle" id="themeToggle" type="button" aria-label="Изменить тему оформления" title="Тема: как на устройстве">◐ <span id="themeLabel">Авто</span></button>
+  </header>
+  <main>
+    <section class="page active" id="overview">
+      <div class="hero">
+        <div class="hero-content">
+          <div class="eyebrow"><span class="live-dot"></span> ВИРТУАЛЬНАЯ ЛАБОРАТОРИЯ · МОЛЕКУЛЯРНАЯ БИОЛОГИЯ</div>
+          <h1>Когда ДНК<br><span class="gradient-text">нужна помощь.</span></h1>
+          <p class="lead">Исследуй репарацию оснований, изучай <strong>экспериментальные 3D-структуры</strong> ферментов и попробуй восстановить повреждённый участок ДНК самостоятельно.</p>
+          <div class="buttonline"><button class="button primary" data-goto="molecules">Исследовать молекулы <span>↗</span></button><button class="button secondary" data-goto="simulation">Запустить BER <span>▶</span></button></div>
+          <div class="hero-tags"><span>4 структуры из PDB</span><span>6 этапов BER</span><span>Интерактивные задания</span></div>
+        </div>
+        <div class="hero-visual"><canvas id="heroCanvas" aria-label="Анимированная учебная модель двойной спирали ДНК"></canvas><div class="hero-orbit orbit-a"></div><div class="hero-orbit orbit-b"></div><span class="hero-note top">DOUBLE HELIX / DNA</span><span class="hero-note bottom">GENOMIC INTEGRITY · 01</span></div>
+      </div>
+      <div class="section-label">ПРОГРАММА ИССЛЕДОВАНИЯ <span>01—04</span></div>
+      <div class="feature-grid">
+        <button class="feature" data-goto="molecules"><span class="feature-num">01 / STRUCTURE</span><span class="feature-icon">◉</span><h3>Реальная 3D-структура</h3><p>Вращай ферменты и комплексы с ДНК. Данные кристаллографических исследований PDB.</p><b>Открыть ↗</b></button>
+        <button class="feature" data-goto="simulation"><span class="feature-num">02 / PROCESS</span><span class="feature-icon">◈</span><h3>Анимация репарации</h3><p>Следи за удалением урацила, надрезом, синтезом и лигированием.</p><b>Открыть ↗</b></button>
+        <button class="feature" data-goto="practice"><span class="feature-num">03 / EXPERIMENT</span><span class="feature-icon">⌁</span><h3>Виртуальный практикум</h3><p>Самостоятельно подбери ферменты и получи исследовательский журнал.</p><b>Открыть ↗</b></button>
+        <button class="feature" data-goto="diseases"><span class="feature-num">04 / CLINICAL GENETICS</span><span class="feature-icon">✚</span><h3>Заболевания человека</h3><p>Девять состояний, связанных с нарушениями репарации и стабильности генома.</p><b>Открыть ↗</b></button><button class="feature" data-goto="test"><span class="feature-num">05 / ASSESSMENT</span><span class="feature-icon">✧</span><h3>Проверь знания</h3><p>Вопросы по механизмам репарации с объяснениями и результатом.</p><b>Открыть ↗</b></button>
+      </div>
+      
+    </section>
+
+    <section class="page" id="molecules">
+      <div class="page-heading"><div><div class="eyebrow">01 / STRUCTURAL BIOLOGY</div><h1>Настоящие <span class="gradient-text">молекулы.</span></h1><p>Выбери фермент и рассмотри его пространственную структуру, определённую экспериментально. Можно вращать, приближать, переключаться между лентами и молекулярной поверхностью.</p></div><span class="outline-chip">PDB × 3Dmol.js</span></div>
+      <div class="molecule-layout">
+        <div class="viewer-shell">
+          <div class="viewer-head"><span><i class="live-dot"></i> МОЛЕКУЛЯРНЫЙ ПРОСМОТРЩИК</span><span id="viewerBadge" class="status-chip">подключение…</span></div>
+          <div class="viewer-frame"><canvas id="fallbackCanvas" aria-label="Схематичная вращающаяся модель ДНК при отсутствии 3D-подключения"></canvas><div id="molviewer"></div><div class="viewer-center-msg" id="viewerMessage" role="status">Загружаем трёхмерную модель…</div><div class="viewer-crosshair">+</div><div class="view-label">EXPERIMENTAL STRUCTURE <b id="pdbCode">1SSP</b></div></div>
+          <div class="viewer-controls"><button class="button small" id="viewRibbon">Ленты</button><button class="button small secondary" id="viewSurface">Поверхность</button><button class="button small secondary" id="viewSticks">Связи</button><button class="button small secondary" id="viewReset">⌖ Центр</button><button class="button small secondary" id="viewRotate">⟳ Автовращение: вкл</button></div>
+          <div class="viewer-foot"><span>ЛКМ — вращение · Колесо — масштаб · ПКМ — сдвиг</span><span>WebGL</span></div>
+        </div>
+        <aside class="molecule-aside"><div class="overline">БИБЛИОТЕКА ФЕРМЕНТОВ · BER</div><div class="enzyme-list" id="enzymeList"></div><div class="info-card"><div class="info-title">ОБРАЗЕЦ В ФОКУСЕ</div><h2 id="enzymeTitle">Урацил-ДНК-гликозилаза</h2><p id="enzymeText"></p><div class="info-pair"><span>СТРУКТУРА</span><a id="pdbLink" href="https://www.rcsb.org/structure/1SSP" target="_blank" rel="noopener noreferrer">RCSB PDB ↗</a></div><div class="info-pair"><span>МЕТОД</span><b id="enzymeMethod">Рентгеноструктурный анализ</b></div><div class="info-pair"><span>РАЗРЕШЕНИЕ</span><b id="enzymeRes">1.90 Å</b></div></div></aside>
+      </div>
+      <div class="notice"><strong>Интернет нужен только для настоящего 3D:</strong> библиотека 3Dmol.js и структуры PDB загружаются по HTTPS. Если загрузка не удалась, ты увидишь учебную анимацию вместо белка. Можно также открыть собственный локальный файл <code>.pdb</code>: <label class="file-control">Выбрать PDB <input id="localPDB" type="file" accept=".pdb,.ent,.txt"></label> <button id="retry3d" class="text-button">Повторить загрузку ↻</button></div>
+    </section>
+
+    <section class="page" id="simulation">
+      <div class="page-heading"><div><div class="eyebrow">02 / INTERACTIVE MECHANISM</div><h1>Репарация оснований <span class="gradient-text">BER.</span></h1><p>Модель короткозаплаточного BER: удаление урацила, образовавшегося, например, при дезаминировании цитозина. Неповреждённая цепь служит матрицей.</p></div><span class="outline-chip">МОДЕЛЬ · НЕ В МАСШТАБЕ</span></div>
+      <div class="sim-layout"><div class="sim-main"><div class="sim-card"><div class="sim-topline"><span><i class="live-dot"></i> BASE EXCISION REPAIR / LIVE SEQUENCE</span><span id="phaseCounter">01 / 06</span></div><svg id="berSVG" viewBox="0 0 920 465" role="img" aria-label="Схематичная анимация изменения повреждённого участка ДНК во время BER">
+        <defs><linearGradient id="dnaTop" x1="0" x2="1"><stop stop-color="#35e3e1"/><stop offset="1" stop-color="#5393ff"/></linearGradient><linearGradient id="dnaBottom" x1="0" x2="1"><stop stop-color="#a18aff"/><stop offset="1" stop-color="#e48dcf"/></linearGradient><radialGradient id="enzymeFill"><stop stop-color="#a3fff0" stop-opacity=".98"/><stop offset="1" stop-color="#0aabb8" stop-opacity=".72"/></radialGradient><filter id="softGlow"><feGaussianBlur stdDeviation="9"/></filter></defs>
+        <g id="gridLines"></g>
+        <text x="66" y="96" fill="#7698b2" font-size="15">5′</text><text x="844" y="96" fill="#7698b2" font-size="15">3′</text><text x="66" y="353" fill="#ab8dc9" font-size="15">3′</text><text x="844" y="353" fill="#ab8dc9" font-size="15">5′</text>
+        <path id="topStrand" d="M98 142 C280 137 630 137 822 142" fill="none" stroke="url(#dnaTop)" stroke-width="9" stroke-linecap="round"/>
+        <path id="bottomStrand" d="M98 316 C280 322 630 322 822 316" fill="none" stroke="url(#dnaBottom)" stroke-width="9" stroke-linecap="round"/>
+        <g id="dnaPairs"></g>
+        <g id="dnaLesion"><circle cx="458" cy="180" r="38" fill="#ff6c83" opacity=".20" filter="url(#softGlow)"/><circle cx="458" cy="180" r="28" fill="none" stroke="#ff7d90" stroke-width="2" stroke-dasharray="5 6"/></g>
+        <g id="enzymeSprite" style="opacity:0;transform:translate(-160px, -140px)"><path d="M-53 -9 C-55 -37 -27 -68 0 -55 C28 -66 61 -37 52 -9 C73 26 37 56 8 44 C-26 63 -62 25 -53 -9Z" fill="url(#enzymeFill)" stroke="#a6ffff" stroke-width="2"/><path d="M-28 -26 Q-5 -44 22 -21 Q49 -3 14 11 Q-15 30 -29 5" stroke="#d6fff9" stroke-width="4" opacity=".75" fill="none"/><circle cx="8" cy="6" r="9" fill="#063448" opacity=".7"/></g>
+        <g id="enzymeTag" opacity="0"><rect x="320" y="35" width="280" height="45" rx="12" fill="#102b3e" stroke="#2e657a"/><text id="enzymeTagText" x="460" y="64" font-size="16" font-weight="700" fill="#c8ffff" text-anchor="middle">Фермент</text></g>
+        <g id="repairMarker"><path d="M458 105 V128" stroke="#ff7d90" stroke-width="2" stroke-dasharray="4 5"/><text id="repairLabel" x="458" y="93" text-anchor="middle" font-size="15" fill="#ff9baf">Урацил: U–G</text></g>
+        <g id="dnaGap" opacity="0"><path d="M443 144 H472" stroke="#0a1420" stroke-width="15"/></g>
+        <g id="spark" opacity="0"><circle cx="458" cy="143" r="11" fill="#73f8a8"/><path d="M440 143H476M458 125V161" stroke="#baffdf" stroke-width="3"/></g>
+        <text x="42" y="425" fill="#7392b2" font-size="13">СХЕМАТИЧЕСКАЯ АНИМАЦИЯ · СОБЫТИЯ ПОКАЗАНЫ В УЧЕБНОМ МАСШТАБЕ</text>
+      </svg><div class="simulation-controls"><button class="button small secondary" id="prevStep">← Назад</button><button class="button small primary" id="playSteps">▶ Воспроизвести</button><button class="button small secondary" id="nextStep">Далее →</button><button class="button small secondary" id="resetSteps">↺ Сначала</button><label class="speed-control">Скорость <select id="stepSpeed"><option value="3400">0.7×</option><option value="2300" selected>1×</option><option value="1300">1.7×</option></select></label></div><div class="progress"><div id="simProgress"></div></div></div></div>
+        <aside class="sim-aside"><div class="overline">ХРОНОЛОГИЯ РЕПАРАЦИИ</div><div id="stepCards" class="step-cards"></div><div class="current-event"><span class="eyebrow">ТЕКУЩЕЕ СОБЫТИЕ</span><h2 id="currentStepTitle"></h2><p id="currentStepText"></p><div id="currentStepWhy" class="why"></div></div></aside></div>
+    </section>
+
+    <section class="page" id="practice">
+      <div class="page-heading"><div><div class="eyebrow">03 / VIRTUAL EXPERIMENT</div><h1>Виртуальный <span class="gradient-text">практикум.</span></h1><p>Урацил оказался напротив гуанина после дезаминирования цитозина. Подбери последовательно необходимые действия для короткозаплаточного BER.</p></div><span class="outline-chip">ПРАКТИКА · 5 ДЕЙСТВИЙ</span></div>
+      <div class="practice-layout"><div class="practice-board"><div class="experiment-label">ОБРАЗЕЦ 001 · U:G MISMATCH</div><div class="sequence-box"><span>ПОВРЕЖДЁННАЯ ЦЕПЬ</span><div class="sequence" id="sequenceTop">5′ A T G <em>U</em> A C T G 3′</div><span>МАТРИЧНАЯ ЦЕПЬ</span><div class="sequence">3′ T A C <strong>G</strong> T G A C 5′</div></div><div class="overline">ВЫБЕРИ СЛЕДУЮЩЕЕ ДЕЙСТВИЕ</div><div id="actionOptions" class="action-options"></div><div id="practiceFeedback" class="practice-feedback" aria-live="polite">Сначала распознай и удали повреждённое основание.</div><div class="buttonline"><button id="practiceReset" class="button secondary small">↺ Новый опыт</button><button id="downloadJournal" class="button secondary small">↓ Скачать журнал .txt</button></div></div><div class="practice-log"><div class="overline">ЖУРНАЛ ЭКСПЕРИМЕНТА</div><div class="progress"><div id="practiceProgress"></div></div><div class="stat-row"><strong id="practiceCount">0 / 5</strong><span>завершено</span></div><div id="journalItems" class="journal-items"></div><div class="mini-note">Один из вариантов механизма BER человека. Для других повреждений ферменты и детали процесса могут отличаться.</div></div></div>
+    </section>
+
+    <section class="page" id="theory">
+      <div class="page-heading"><div><div class="eyebrow">ТЕОРЕТИЧЕСКИЙ РАЗДЕЛ</div><h1>Механизмы <span class="gradient-text">репарации ДНК.</span></h1><p>Клетки и другие организмы используют несколько систем для устранения повреждений ДНК и поддержания стабильности генома. Выбор механизма зависит от типа повреждения и биологического контекста.</p></div></div>
+      <div class="mini-animation-grid">
+        <article class="mini-animation"><h3>Фотореактивация</h3><p>Фотолиаза связывает фотодимер; свет активирует восстановление оснований.</p><div class="anim-scene photo"><span class="strand"></span><i class="lesion"></i><i class="repair-dot"></i><small>СВЕТ → ВОССТАНОВЛЕНИЕ</small></div></article>
+        <article class="mini-animation"><h3>Удаление алкильных групп</h3><p>MGMT переносит алкильную группу на себя и восстанавливает гуанин.</p><div class="anim-scene alkyl"><span class="strand"></span><i class="lesion"></i><i class="repair-dot"></i><small>ПЕРЕНОС ГРУППЫ</small></div></article>
+        <article class="mini-animation"><h3>BER</h3><p>Гликозилаза удаляет основание; участок заполняется и сшивается.</p><div class="anim-scene ber"><span class="strand"></span><i class="lesion"></i><i class="repair-dot"></i><small>УДАЛЕНИЕ → ЗАПОЛНЕНИЕ</small></div></article>
+        <article class="mini-animation"><h3>NER</h3><p>Повреждённый фрагмент цепи вырезается, затем синтезируется заново.</p><div class="anim-scene ner"><span class="strand"></span><i class="lesion"></i><i class="repair-dot"></i><small>ВЫРЕЗАНИЕ ФРАГМЕНТА</small></div></article>
+        <article class="mini-animation"><h3>MMR</h3><p>Несоответствие распознаётся; ошибочный участок новой цепи заменяется.</p><div class="anim-scene mmr"><span class="strand"></span><i class="lesion"></i><i class="repair-dot"></i><small>ИСПРАВЛЕНИЕ НЕСООТВЕТСТВИЯ</small></div></article>
+        <article class="mini-animation"><h3>HR</h3><p>Повреждённая цепь использует гомологичную ДНК как матрицу.</p><div class="anim-scene hr"><span class="strand"></span><i class="lesion"></i><i class="repair-dot"></i><small>КОПИРОВАНИЕ ПО МАТРИЦЕ</small></div></article>
+        <article class="mini-animation"><h3>NHEJ</h3><p>Белковый комплекс сближает и соединяет концы двунитевого разрыва.</p><div class="anim-scene nhej"><span class="strand"></span><i class="lesion"></i><i class="repair-dot"></i><small>СОЕДИНЕНИЕ КОНЦОВ</small></div></article>
+        <article class="mini-animation"><h3>SOS-ответ</h3><p>У бактерий RecA способствует снятию репрессии LexA и запуску ответа.</p><div class="anim-scene sos"><span class="strand"></span><i class="lesion"></i><i class="repair-dot"></i><small>АКТИВАЦИЯ ГЕНОВ ОТВЕТА</small></div></article>
+      </div>
+      <div class="theory-grid">
+        <article class="theory-card"><div class="theory-code">DIRECT REVERSAL / 01</div><h2>Прямая репарация</h2><p><b>Фотореактивация.</b> Фотолиазы используют энергию видимого/синего света для расщепления некоторых УФ-индуцированных пиримидиновых димеров. Этот механизм встречается у бактерий, грибов, растений и многих животных, но отсутствует у человека и других плацентарных млекопитающих.<br><br><b>Удаление алкильных групп.</b> MGMT переносит алкильную группу с O⁶-гуанина на собственный активный остаток цистеина и необратимо инактивируется. Ферменты семейства AlkB окислительно деметилируют некоторые повреждённые основания.</p><div class="theory-line"><b>Принцип</b><span>Химическая модификация устраняется без вырезания участка цепи</span></div></article>
+        <article class="theory-card"><div class="theory-code">BER / 02</div><h2>Эксцизионная репарация оснований</h2><p>Исправляет небольшие повреждения отдельных оснований: дезаминирование, окисление и некоторые виды алкилирования. ДНК-гликозилаза удаляет повреждённое основание, образуя AP-сайт. Затем AP-эндонуклеаза, ДНК-полимераза и лигаза восстанавливают участок.</p><div class="theory-line"><b>Ключевые участники у человека</b><span>ДНК-гликозилазы → APE1 → Pol β → ДНК-лигаза</span></div></article>
+        <article class="theory-card"><div class="theory-code">NER / 03</div><h2>Нуклеотидная эксцизионная репарация</h2><p>Устраняет объёмные повреждения, деформирующие двойную спираль, включая УФ-фотопродукты. Повреждённый фрагмент одной цепи вырезается, после чего ДНК-полимераза заполняет промежуток, а лигаза соединяет цепь.</p><div class="theory-line"><b>Два варианта</b><span>Геномная NER и NER, сопряжённая с транскрипцией</span></div></article>
+        <article class="theory-card"><div class="theory-code">MMR / 04</div><h2>Репарация неспаренных оснований</h2><p>Исправляет ошибки репликации: неправильные пары оснований и небольшие вставки или делеции. Система распознаёт несоответствие, удаляет участок новосинтезированной цепи и восстанавливает его по матрице.</p><div class="theory-line"><b>Ключевые белки у человека</b><span>MSH2–MSH6 / MSH2–MSH3, MLH1–PMS2</span></div></article>
+        <article class="theory-card"><div class="theory-code">DSB / 05</div><h2>Репарация двунитевых разрывов</h2><p><b>Гомологичная рекомбинация (HR).</b> Использует гомологичную последовательность, обычно сестринскую хроматиду, как матрицу. Поэтому особенно важна в S- и G₂-фазах клеточного цикла.<br><br><b>Негомологичное соединение концов (NHEJ).</b> Соединяет концы разрыва без длинной гомологичной матрицы. Может сопровождаться небольшими вставками или потерями нуклеотидов.</p><div class="theory-line"><b>Ключевые белки</b><span>HR: BRCA1/2, RAD51 · NHEJ: Ku70/80, DNA-PKcs, XRCC4–лигаза IV</span></div></article>
+        <article class="theory-card"><div class="theory-code">SOS RESPONSE / 06</div><h2>SOS-ответ</h2><p>Индуцируемый ответ на повреждение ДНК, подробно изученный у бактерий, например Escherichia coli. При накоплении одноцепочечной ДНК активируется RecA, что способствует снятию репрессии LexA и экспрессии генов ответа. Включаются системы репарации и транслезионного синтеза; последний может быть ошибочным.</p><div class="theory-line"><b>Важно</b><span>SOS-ответ — бактериальная система, не механизм репарации клеток человека</span></div></article>
+      </div>
+      <div class="reference-box"><div class="overline">СРАВНЕНИЕ МЕХАНИЗМОВ</div><h2>Тип повреждения и основной путь</h2><div class="table-wrap"><table><thead><tr><th>Механизм</th><th>Основная мишень</th><th>Биологический контекст</th></tr></thead><tbody><tr><td>Прямая репарация</td><td>Некоторые фотопродукты и алкилированные основания</td><td>Фотолиазы отсутствуют у человека; MGMT присутствует</td></tr><tr><td>BER</td><td>Небольшие химические изменения оснований</td><td>В том числе клетки человека</td></tr><tr><td>NER</td><td>Объёмные повреждения, искажающие спираль</td><td>В том числе клетки человека</td></tr><tr><td>MMR</td><td>Ошибки спаривания после репликации</td><td>В том числе клетки человека</td></tr><tr><td>HR / NHEJ</td><td>Двуни-тевые разрывы ДНК</td><td>В том числе клетки человека</td></tr><tr><td>SOS-ответ</td><td>Комплексный ответ на повреждение генома</td><td>Бактерии; не система репарации человека</td></tr></tbody></table></div></div>
+      <div class="reference-box"><div class="overline">ИСТОЧНИКИ МОЛЕКУЛЯРНЫХ СТРУКТУР</div><p>Экспериментальные структуры белков доступны в Protein Data Bank. Каждая структура отражает отдельное исследованное состояние молекулы.</p><div class="source-links"><a href="https://www.rcsb.org/structure/1SSP" target="_blank" rel="noopener">1SSP · UNG–DNA ↗</a><a href="https://www.rcsb.org/structure/5DFI" target="_blank" rel="noopener">5DFI · APE1–DNA ↗</a><a href="https://www.rcsb.org/structure/2FMS" target="_blank" rel="noopener">2FMS · Pol β–DNA ↗</a><a href="https://www.rcsb.org/structure/3L2P" target="_blank" rel="noopener">3L2P · Ligase III–DNA ↗</a></div></div>
+    </section>
+
+    <section class="page" id="diseases">
+      <div class="page-heading"><div><div class="eyebrow">КЛИНИЧЕСКАЯ ГЕНЕТИКА</div><h1>Заболевания и <span class="gradient-text">репарация ДНК.</span></h1><p>Наследственные нарушения систем поддержания стабильности генома и связанные с ними клинические состояния.</p></div></div>
+<div class="reference-box"><div class="overline">ЗАБОЛЕВАНИЯ ЧЕЛОВЕКА</div><h2>Нарушения репарации и стабильности генома</h2><div class="disease-grid">
+        <article class="disease-card"><h3>Пигментная ксеродерма</h3><p>Наследственные дефекты белков NER приводят к нарушенному удалению УФ-индуцированных повреждений и резко повышают чувствительность кожи к ультрафиолету.</p><span>Связанный путь: NER</span></article>
+        <article class="disease-card"><h3>Атаксия-телеангиэктазия</h3><p>Варианты гена ATM нарушают клеточный ответ на двунитевые разрывы ДНК, контроль клеточного цикла и поддержание стабильности генома.</p><span>Связанный путь: ответ на двунитевые разрывы</span></article>
+        <article class="disease-card"><h3>Синдром Коккейна</h3><p>Связан с дефектами ERCC6/CSB или ERCC8/CSA, участвующих в NER, сопряжённой с транскрипцией.</p><span>Связанный путь: TC-NER</span></article>
+        <article class="disease-card"><h3>Трихотиодистрофия</h3><p>Некоторые формы обусловлены вариантами генов ERCC2/XPD, ERCC3/XPB или GTF2H5, связанных с комплексом TFIIH и NER.</p><span>Связанный путь: NER</span></article>
+        <article class="disease-card"><h3>Синдром Блума</h3><p>Вызван патогенными вариантами BLM, кодирующего ДНК-геликазу семейства RecQ; характеризуется повышенной геномной нестабильностью.</p><span>Связанный процесс: поддержание стабильности генома</span></article>
+        <article class="disease-card"><h3>Синдром Вернера</h3><p>Связан с нарушением функции геликазы WRN, участвующей в репликации, рекомбинации и поддержании стабильности генома.</p><span>Связанный процесс: репликация и рекомбинация</span></article>
+        <article class="disease-card"><h3>Синдром Секеля</h3><p>Генетически неоднородное состояние; некоторые формы связаны с вариантами ATR или генов, влияющих на ответ на репликационный стресс.</p><span>Связанный процесс: контроль репликационного стресса</span></article>
+        <article class="disease-card"><h3>Синдром Линча</h3><p>Наследственные патогенные варианты MLH1, MSH2, MSH6, PMS2 или делеции EPCAM нарушают систему исправления ошибок репликации.</p><span>Связанный путь: MMR</span></article>
+        <article class="disease-card"><h3>Наследственная предрасположенность к раку молочной железы и яичников</h3><p>Патогенные варианты BRCA1 или BRCA2 нарушают эффективную гомологичную рекомбинацию и повышают риск ряда опухолей.</p><span>Связанный путь: HR</span></article>
+      </div></div>
+    </section>
+
+    <section class="page" id="test">
+      <div class="page-heading"><div><div class="eyebrow">05 / KNOWLEDGE CHECK</div><h1>Проверь <span class="gradient-text">себя.</span></h1><p>Вопросы по механизмам репарации, ферментам и этапам BER. После ответа получишь научное объяснение.</p></div><span class="outline-chip" id="quizTotal">8 ВОПРОСОВ</span></div>
+      <div class="quiz-layout"><div class="quiz-board"><div class="quiz-header"><span id="questionNumber">ВОПРОС 01 / 08</span><span id="quizScore">0 баллов</span></div><div class="progress"><div id="quizProgress"></div></div><h2 id="questionText"></h2><div id="quizAnswers" class="quiz-answers"></div><div id="quizExplanation" class="quiz-explanation">Выбери правильный вариант.</div><div class="buttonline"><button id="quizNext" class="button primary" disabled>Следующий вопрос →</button><button id="quizRestart" class="button secondary">↺ Начать заново</button></div></div><div class="quiz-aside"><div class="overline">ПРОТОКОЛ ОЦЕНКИ</div><div class="big-number" id="quizCurrentPoints">00<span> / 08</span></div><p>За каждый правильный ответ начисляется один балл.</p><div id="quizResult" class="mini-note">Результат появится после завершения теста.</div></div></div>
+    </section>
+  </main>
+  <footer><div>GENOME MECHANIC <span>© EDUCATIONAL DEMONSTRATION</span></div><div>3D: PDB / 3Dmol.js · BER: simplified teaching animation</div></footer>
+  <script src="assets/app.js"></script>
+</body>
+</html>
