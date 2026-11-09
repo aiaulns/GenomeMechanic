@@ -27,7 +27,7 @@ ru: {
   },
   au:{
     title:'АВТОРСТВО',
-    studentK:'Автор',student:'Студентка 1 курса факультета «Медицина», группа Мед26-046р',
+    studentK:'Автор',student:'<strong>Насурлла Аяулым Музаффарқызы</strong><br>Студентка 1 курса факультета «Медицина», группа Мед26-046р',
     uniK:'Университет',univ:'КазНМУ им. Асфендиярова',
     supK:'Научный руководитель',sup:'Альмухамбетова Светлана Кадыровна, ассоциированный профессор',
     deptK:'Кафедра',dept:'Кафедра молекулярной биологии и медицинской генетики'
@@ -186,7 +186,7 @@ en: {
   },
   au:{
     title:'AUTHORSHIP',
-    studentK:'Author',student:'1st-year student, Faculty of Medicine, group Мед26-046р',
+    studentK:'Author',student:'<strong>Nasurlla Ayaulym Muzaffarkyzy</strong><br>1st-year student, Faculty of Medicine, group Мед26-046р',
     uniK:'University',univ:'Asfendiyarov Kazakh National Medical University (KazNMU)',
     supK:'Scientific supervisor',sup:'Almukhambetova Svetlana Kadyrovna, Associate Professor',
     deptK:'Department',dept:'Department of Molecular Biology and Medical Genetics'
@@ -345,7 +345,7 @@ kk: {
   },
   au:{
     title:'АВТОРЛЫҚ',
-    studentK:'Автор',student:'«Медицина» факультетінің 1 курс студенті, Мед26-046р тобы',
+    studentK:'Автор',student:'<strong>Насурлла Аяулым Музаффарқызы</strong><br>«Медицина» факультетінің 1 курс студенті, Мед26-046р тобы',
     uniK:'Университет',univ:'Асфендияров атындағы ҚазҰМУ',
     supK:'Ғылыми жетекші',sup:'Альмухамбетова Светлана Кадыровна, қауымдастырылған профессор',
     deptK:'Кафедра',dept:'Молекулалық биология және медициналық генетика кафедрасы'
